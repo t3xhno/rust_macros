@@ -54,34 +54,33 @@ macro_rules! impl_and_test {
 
 impl_and_test!(u32, i32, u64, i64);
 
-#[test]
-fn empty_vec() {
-    let x: Vec<u32> = avec![];
-    assert!(x.is_empty());
+#[macro_export]
+macro_rules! sanity_check {
+    ($x:expr, $e:expr) => {
+        assert!(!$x.is_empty());
+        assert_eq!($x.len(), $e.len());
+        for i in 0..$x.len() {
+            assert_eq!($x[i], $e[i]);
+        }
+    };
 }
 
-#[test]
-fn one_element() {
-    let x: Vec<u32> = avec![42];
-    assert!(!x.is_empty());
-    assert_eq!(x.len(), 1);
-    assert_eq!(x[0], 42);
+#[macro_export]
+macro_rules! generate_tests {
+    ($($n:ident: $e:expr);+ $(;)?) => {
+        paste::item! {
+            $(
+                #[test]
+                fn [< $n >] () {
+                    sanity_check!(avec!($e), [$e]);
+                }
+            )+
+        }
+    };
 }
 
-#[test]
-fn multiple_elements_trailing_comma() {
-    let x: Vec<u32> = avec![1, 2, 3, 4, 5, 6,];
-    assert!(!x.is_empty());
-    assert_eq!(x.len(), 6);
-    assert_eq!(x[0], 1);
-    assert_eq!(x[4], 5);
-}
-
-#[test]
-fn semicolon_works() {
-    let x: Vec<u32> = avec![42; 12];
-    assert!(!x.is_empty());
-    assert_eq!(x.len(), 12);
-    assert_eq!(x[0], 42);
-    assert_eq!(x[9], 42);
-}
+generate_tests!(
+    one_ele: [42];
+    multiple_ele: [1, 2, 3, 4, 5, 6];
+    semicolon_ele: [42; 12]
+);
