@@ -32,11 +32,6 @@ macro_rules! max_impl {
     };
 }
 
-max_impl!(u32);
-max_impl!(i32);
-max_impl!(u64);
-max_impl!(i64);
-
 macro_rules! test_max_val {
     ($t:ty) => {
         paste::item! {
@@ -48,10 +43,16 @@ macro_rules! test_max_val {
     };
 }
 
-test_max_val!(u32);
-test_max_val!(i32);
-test_max_val!(u64);
-test_max_val!(i64);
+macro_rules! impl_and_test {
+    ($($t:ty),+) => {
+        $(
+            max_impl!($t);
+            test_max_val!($t);
+        )+
+    };
+}
+
+impl_and_test!(u32, i32, u64, i64);
 
 #[test]
 fn empty_vec() {
