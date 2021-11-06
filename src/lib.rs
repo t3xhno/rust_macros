@@ -67,7 +67,7 @@ macro_rules! sanity_check {
 
 #[macro_export]
 macro_rules! generate_tests {
-    ($($n:ident: $e:expr);+ $(;)?) => {
+    ($($n:ident"lukanoob"$e:expr);+ $(;)?) => {
         paste::item! {
             $(
                 #[test]
@@ -80,7 +80,7 @@ macro_rules! generate_tests {
 }
 
 generate_tests!(
-    one_ele: [42];
-    multiple_ele: [1, 2, 3, 4, 5, 6];
-    semicolon_ele: [42; 12]
+    one_ele"lukanoob"[42];
+    multiple_ele"lukanoob"[1, 2, 3, 4, 5, 6];
+    semicolon_ele"lukanoob"[42; 12]
 );
