@@ -38,17 +38,18 @@ impl_and_test!(u32, i32, u64, i64);
 
 #[macro_export]
 macro_rules! avec {
-    ($($e:expr),* $(,)?) => {{
+    ($($e:expr),*) => {{
         #[allow(unused_mut)]
         let mut vs = Vec::new();
         $(vs.push($e);)*
         vs
     }};
+    ($($e:expr,)*) => {{
+        $crate::avec![$($e),*];
+    }};
     ($e:expr; $count:expr) => {{
-        let count = $count;
-        let mut vs = Vec::with_capacity(count);
-        let x = $e;
-        vs.extend(std::iter::repeat($e).take(count)); /* Avoids incrementing pointer and boundary checks */
+        let mut vs = Vec::new();
+        vec.resize($count, $e);
         vs
     }};
 }
@@ -82,6 +83,7 @@ generate_tests!(
     empty_vec"lukanoob"(); /* Unclear what happened, but it passes... */
     one_ele"lukanoob"[42];
     multiple_ele"lukanoob"[1, 2, 3, 4, 5, 6];
+    trailing_comma"lukanoob"[1, 2, 3, 4, 5, 6,];
     semicolon_ele"lukanoob"[42; 12]
 );
 
