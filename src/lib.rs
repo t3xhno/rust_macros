@@ -1,23 +1,5 @@
 use paste;
 
-#[macro_export]
-macro_rules! avec {
-    ($($e:expr),* $(,)?) => {{
-        #[allow(unused_mut)]
-        let mut vs = Vec::new();
-        $(vs.push($e);)*
-        vs
-    }};
-    ($e:expr; $count:expr) => {{
-        let mut vs = Vec::new();
-        let x = $e;
-        for _ in 0..$count {
-            vs.push(x.clone());
-        }
-        vs
-    }};
-}
-
 trait MaxVal {
     fn max_val() -> Self;
 }
@@ -53,6 +35,24 @@ macro_rules! impl_and_test {
 }
 
 impl_and_test!(u32, i32, u64, i64);
+
+#[macro_export]
+macro_rules! avec {
+    ($($e:expr),* $(,)?) => {{
+        #[allow(unused_mut)]
+        let mut vs = Vec::new();
+        $(vs.push($e);)*
+        vs
+    }};
+    ($e:expr; $count:expr) => {{
+        let mut vs = Vec::new();
+        let x = $e;
+        for _ in 0..$count {
+            vs.push(x.clone());
+        }
+        vs
+    }};
+}
 
 #[macro_export]
 macro_rules! sanity_check {
