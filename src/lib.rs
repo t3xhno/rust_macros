@@ -85,3 +85,9 @@ generate_tests!(
     multiple_ele"lukanoob"[1, 2, 3, 4, 5, 6];
     semicolon_ele"lukanoob"[42; 12]
 );
+
+/// ```compile_fail
+/// let x: Vec<u32> = macros::avec![42; "foo"];
+/// ```
+#[allow(dead_code)]
+struct CompileFailTest;
