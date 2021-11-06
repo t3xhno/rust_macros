@@ -40,18 +40,35 @@ impl_and_test!(u32, i32, u64, i64);
 macro_rules! avec {
     ($($e:expr),*) => {{
         #[allow(unused_mut)]
-        let mut vs = Vec::new();
+        let mut vs = Vec::with_capacity($crate::count![@COUNT; $($e),*]);
         $(vs.push($e);)*
         vs
     }};
+
     ($($e:expr,)*) => {{
         $crate::avec![$($e),*];
     }};
+
     ($e:expr; $count:expr) => {{
         let mut vs = Vec::new();
         vec.resize($count, $e);
         vs
     }};
+}
+
+#[macro_export]
+#[doc(hidden)]
+macro_rules! count {
+    //
+    // Converts the $e to slice, and uses the unit slice [()]
+    // implementation of the len function to count the
+    // number of elements!
+    //
+    (@COUNT; $($e:expr),*) => {
+        <[()]>::len(&[$($crate::count![@SUBST; $e]),*])
+    };
+
+    (@SUBST; $e:expr) => { () };
 }
 
 #[macro_export]
