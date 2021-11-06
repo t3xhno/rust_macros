@@ -80,6 +80,7 @@ macro_rules! generate_tests {
 }
 
 generate_tests!(
+    empty_vec"lukanoob"(); /* Unclear what happened, but it passes... */
     one_ele"lukanoob"[42];
     multiple_ele"lukanoob"[1, 2, 3, 4, 5, 6];
     semicolon_ele"lukanoob"[42; 12]
