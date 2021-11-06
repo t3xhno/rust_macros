@@ -48,7 +48,7 @@ macro_rules! avec {
         let count = $count;
         let mut vs = Vec::with_capacity(count);
         let x = $e;
-        vs.extend(std::iter::repeat($e).take(count));
+        vs.extend(std::iter::repeat($e).take(count)); /* Avoids incrementing pointer and boundary checks */
         vs
     }};
 }
