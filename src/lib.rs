@@ -48,9 +48,7 @@ macro_rules! avec {
         let count = $count;
         let mut vs = Vec::with_capacity(count);
         let x = $e;
-        for _ in 0..count {
-            vs.push(x.clone());
-        }
+        vs.extend(std::iter::repeat($e).take(count));
         vs
     }};
 }
